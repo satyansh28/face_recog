@@ -1,9 +1,9 @@
 import 'tachyons';
-const Rank=()=>
+const Rank=(props)=>
 {
     return(
         <div>
-            <p className="f3 center pa4 white">User,Your rank is 5</p>
+            <p className="f3 center pa4 white">{props.uname},your rank is {props.urank}</p>
         </div>
     );
 }

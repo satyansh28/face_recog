@@ -513,7 +513,14 @@ class  App extends React.Component
   constructor()
   {
     super();
-    this.state={inputlink:'',box:{},route:'signin'}; 
+    this.state={
+      inputlink:'',
+      box:{},
+      route:'signin',
+      id:'',
+      rank:'',
+      name:'',
+    }; 
     this.temp={tempinput: ''};
     this.status=0;
   }
@@ -537,9 +544,15 @@ class  App extends React.Component
       (response)=>
       {
         console.log('OK');
-        let boxrelative=(this.whereface(response));
+        let boxrelative=(response.outputs[0].data.regions[0].region_info.bounding_box);
         this.status=1;
-        this.setState({inputlink: this.temp.tempinput,box: boxrelative});
+        let temprank=this.rank;
+        fetch('http://localhost:5000/image',{
+          method:'put',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({id:this.id})
+        }).then(response=>{response.json()}).then(res=>{temprank=res.rank}).catch(err=>console.log("Error in API:",err));
+        this.setState({inputlink: this.temp.tempinput,box: boxrelative,rank:temprank});
       },
       (err)=>
       {
@@ -549,9 +562,13 @@ class  App extends React.Component
       }
     )
   }
-  setRoute=(curr)=> //to be changed to API call
+  setRoute=(curr,userid='',uname='',urank='')=> 
   {
-    this.setState({route: curr});
+    this.setState({route: curr,id:userid,rank: urank,name: uname});
+  }
+  updateRank=(rank)=>
+  {
+    this.rank=rank;
   }
   render()
   {
@@ -566,7 +583,7 @@ class  App extends React.Component
         (this.state.route==='home'?<div>
       <Navigation signout={this.setRoute}/>
       <Logo />
-      <Rank />
+      <Rank uname={this.state.name} urank={this.state.rank}/>
       <Imageinput inputs={this.getsinput} clicked={this.clicked}/>
       <FaceRec box={this.state.box} imglink={this.state.inputlink} status={this.status}/>
       </div>:<Register click={this.setRoute}/>)}
