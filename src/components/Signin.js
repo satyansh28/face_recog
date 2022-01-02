@@ -15,14 +15,23 @@ const Signin=(props)=>
         fetch('http://localhost:5000/signin',{
             method:'post',
             headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({formvalue})
-        }).then(response =>response.json())
-        .then(data => {
-            if (data.status==='success')
-                props.onLogin('home',data.userid,data.name,data.rank);
+            body:JSON.stringify(formvalue)
+        }).then(response =>{
+            if(response.status===401)
+                window.alert('Invalid email or password!');
+            else if(response.status===200)
+            {
+                response.json()
+                .then(user=> 
+                    {
+                        console.log("user:",user);
+                        props.onLogin('home',user.id,user.name,user.entries)
+                    });
+            }
             else
-                window.alert("Incorrect email or password!");
+                throw Error('err');
         })
+        .catch(err => {window.alert('Something failed,try again later')})
         
     }
     return(

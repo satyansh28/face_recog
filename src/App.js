@@ -518,7 +518,7 @@ class  App extends React.Component
       box:{},
       route:'signin',
       id:'',
-      rank:'',
+      entries:'',
       name:'',
     }; 
     this.temp={tempinput: ''};
@@ -546,29 +546,27 @@ class  App extends React.Component
         console.log('OK');
         let boxrelative=(response.outputs[0].data.regions[0].region_info.bounding_box);
         this.status=1;
-        let temprank=this.rank;
         fetch('http://localhost:5000/image',{
           method:'put',
           headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({id:this.id})
-        }).then(response=>{response.json()}).then(res=>{temprank=res.rank}).catch(err=>console.log("Error in API:",err));
-        this.setState({inputlink: this.temp.tempinput,box: boxrelative,rank:temprank});
+          body:JSON.stringify({id:this.state.id})
+        }).then(response=>response.json())
+        .then(res=>this.setState({...this.state,inputlink: this.temp.tempinput,box: boxrelative,entries:res.entries}))
+        
+        .catch(err=>console.log("Error in API:",err));
+        
       },
       (err)=>
       {
-        console.log('error');
+        console.log("error=",err);
         this.status=2;
-        this.setState({inputlink: "00",box:{}});
+        this.setState({...this.state,inputlink: "00",box:{}});
       }
     )
   }
-  setRoute=(curr,userid='',uname='',urank='')=> 
+  setRoute=(curr,userid='',uname='',uentries='')=> 
   {
-    this.setState({route: curr,id:userid,rank: urank,name: uname});
-  }
-  updateRank=(rank)=>
-  {
-    this.rank=rank;
+    this.setState({...this.state,route: curr,id:userid,entries: uentries,name: uname});
   }
   render()
   {
@@ -583,7 +581,7 @@ class  App extends React.Component
         (this.state.route==='home'?<div>
       <Navigation signout={this.setRoute}/>
       <Logo />
-      <Rank uname={this.state.name} urank={this.state.rank}/>
+      <Rank uname={this.state.name} uentries={this.state.entries}/>
       <Imageinput inputs={this.getsinput} clicked={this.clicked}/>
       <FaceRec box={this.state.box} imglink={this.state.inputlink} status={this.status}/>
       </div>:<Register click={this.setRoute}/>)}
