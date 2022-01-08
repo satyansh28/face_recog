@@ -16,7 +16,8 @@ const Signin=(props)=>
             window.alert("Name and password cannot be empty!");
         else
         {
-        fetch('http://localhost:5000/signin',{
+        fetch('https://git.heroku.com/rocky-oasis-10907.git/signin',{
+            mode:'no-cors',
             method:'post',
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify(formvalue)

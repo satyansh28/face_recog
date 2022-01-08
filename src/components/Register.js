@@ -20,7 +20,7 @@ const Register=(props)=>
             window.alert("Name and email cannot be empty!");
         else
         {
-        fetch('http://localhost:5000/register',{
+        fetch('https://git.heroku.com/rocky-oasis-10907.git/register',{
             method:'post',
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify(formvalue)
@@ -30,9 +30,9 @@ const Register=(props)=>
             else if(res.status===400)
                 window.alert('Email already in use!');
             else
-                window.alert('An error occurred, please try again');
+                throw Error('errr');
 
-        });
+        }).catch(err => window.alert('An error occurred, please try again'));
         }
         //props.click('signin');
     }
