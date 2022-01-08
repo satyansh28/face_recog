@@ -16,6 +16,8 @@ const Register=(props)=>
     const registerclick=()=>{
         if (formvalue.password.length<=3)
             window.alert("Password must be 4 characters long atleast!");
+        else if(formvalue.email.length===0 || formvalue.name.length===0)
+            window.alert("Name and email cannot be empty!");
         else
         {
         fetch('http://localhost:5000/register',{

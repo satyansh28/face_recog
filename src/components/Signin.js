@@ -12,6 +12,10 @@ const Signin=(props)=>
     } 
     const onsigninclick=()=>
     {
+        if(formvalue.email.length===0 || formvalue.password.length===0)
+            window.alert("Name and password cannot be empty!");
+        else
+        {
         fetch('http://localhost:5000/signin',{
             method:'post',
             headers:{'Content-Type':'application/json'},
@@ -24,7 +28,7 @@ const Signin=(props)=>
                 response.json()
                 .then(user=> 
                     {
-                        console.log("user:",user);
+                        
                         props.onLogin('home',user.id,user.name,user.entries)
                     });
             }
@@ -32,6 +36,7 @@ const Signin=(props)=>
                 throw Error('err');
         })
         .catch(err => {window.alert('Something failed,try again later')})
+        }
         
     }
     return(

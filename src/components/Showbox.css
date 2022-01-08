@@ -1,8 +1,18 @@
-.fbox
+.bounding-box
 {
     position:absolute;
+    box-shadow: 0 0 0 2px #149df2 inset;
     display:flex;
     flex-wrap: wrap;
     justify-content: center;
     cursor: pointer;
+}
+.mid
+{
+    max-height: 70vh;
+    width: auto;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    display: flex;
 }

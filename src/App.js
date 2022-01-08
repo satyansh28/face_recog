@@ -5,13 +5,11 @@ import { Navigation } from './components/Navigation';
 import {Rank} from './components/Rank';
 import Particles from "react-tsparticles";
 import React from 'react';
-import Clarifai from 'clarifai';
+
 import FaceRec from './components/FaceRec';
 import Signin from './components/Signin';
 import Register from './components/Register';
-const app= new Clarifai.App(
-  {apiKey:'aac8c891a663479686967726f2a3fb52'}
-);
+
 const p={
   "autoPlay": true,
   "background": {
@@ -507,7 +505,14 @@ const p={
   "themes": [],
   "zLayers": 1
 };
-
+const nullstate={
+  inputlink:'',
+  box:{},
+  route:'signin',
+  id:'',
+  entries:'',
+  name:'',
+}; 
 class  App extends React.Component 
 {
   constructor()
@@ -526,8 +531,16 @@ class  App extends React.Component
   }
   whereface=(data)=>
   {
-    const temp2=data.outputs[0].data.regions[0].region_info.bounding_box;
-    return(temp2);
+    const image = document.getElementById('inpimag');
+    const width = Number(image.width);
+    const height = Number(image.height);
+    console.log(height);
+    return {
+      leftCol: data.left_col * width,
+      topRow: data.top_row * height,
+      rightCol: width * (1-data.right_col ),
+      bottomRow: height * (1-data.bottom_row )
+    }
   }
   
   componentDidCatch()
@@ -540,37 +553,50 @@ class  App extends React.Component
   }
   clicked=(event)=>
   {
-    app.models.predict(Clarifai.FACE_DETECT_MODEL,this.temp.tempinput).then(
-      (response)=>
+    this.status=1;
+    this.setState({...this.state,inputlink:this.temp.tempinput,box:{}});
+    fetch('http://localhost:5000/imglink',{
+      method:'post',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({link:this.temp.tempinput,id:this.state.id})
+    }).then(resp=> {
+      if(resp.status===200)
       {
-        console.log('OK');
-        let boxrelative=(response.outputs[0].data.regions[0].region_info.bounding_box);
+        return(resp.json().then(res=>{
         this.status=1;
-        fetch('http://localhost:5000/image',{
-          method:'put',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({id:this.state.id})
-        }).then(response=>response.json())
-        .then(res=>this.setState({...this.state,inputlink: this.temp.tempinput,box: boxrelative,entries:res.entries}))
-        
-        .catch(err=>console.log("Error in API:",err));
-        
-      },
-      (err)=>
+        this.setState({...this.state,entries:res.entries});
+        this.render();
+        return res;}))
+      }
+      else
       {
-        console.log("error=",err);
         this.status=2;
         this.setState({...this.state,inputlink: "00",box:{}});
+        throw Error('err');
       }
-    )
+  })
+  .then(res=>
+    {
+      
+      let absolutebox=this.whereface(res.box);
+      console.log(absolutebox);
+      this.setState({...this.state,box:absolutebox});
+    })
+    .catch(err=>{console.log(err)});
   }
   setRoute=(curr,userid='',uname='',uentries='')=> 
   {
-    this.setState({...this.state,route: curr,id:userid,entries: uentries,name: uname});
+    if(curr==='signin')
+    {
+      this.temp={tempinput: ''};
+      this.status=0;
+      this.setState(nullstate);
+    }
+    else
+      this.setState({...this.state,route: curr,id:userid,entries: uentries,name: uname});
   }
   render()
   {
-    console.log('done ',this.state.box);
     return (
       <div className="App">
       
