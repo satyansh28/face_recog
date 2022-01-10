@@ -555,8 +555,8 @@ class  App extends React.Component
   {
     this.status=1;
     this.setState({...this.state,inputlink:this.temp.tempinput,box:{}});
-    fetch('https://git.heroku.com/rocky-oasis-10907.git/imglink',{
-      method:'post',
+    fetch('https://rocky-oasis-10907.herokuapp.com/imglink',{
+      method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({link:this.temp.tempinput,id:this.state.id})
     }).then(resp=> {

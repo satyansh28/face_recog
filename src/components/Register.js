@@ -20,8 +20,8 @@ const Register=(props)=>
             window.alert("Name and email cannot be empty!");
         else
         {
-        fetch('https://git.heroku.com/rocky-oasis-10907.git/register',{
-            method:'post',
+        fetch('https://rocky-oasis-10907.herokuapp.com/register',{
+            method:'POST',
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify(formvalue)
         }).then(res => {
