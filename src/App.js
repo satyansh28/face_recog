@@ -38,7 +38,7 @@ const p={
   },
   "detectRetina": true,
   "duration": 0,
-  "fpsLimit": 60,
+  "fpsLimit": 30,
   "interactivity": {
     "detectsOn": "window",
     "events": {
@@ -74,11 +74,11 @@ const p={
         "mix": false
       },
       "connect": {
-        "distance": 60,
+        "distance": 30,
         "links": {
           "opacity": 1
         },
-        "radius": 40
+        "radius": 30
       },
       "grab": {
         "distance": 100,
@@ -342,8 +342,8 @@ const p={
     "number": {
       "density": {
         "enable": true,
-        "area": 600,
-        "factor": 1000
+        "area": 400,
+        "factor": 500
       },
       "limit": 0,
       "value": 80
