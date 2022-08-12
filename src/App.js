@@ -346,7 +346,7 @@ const p={
         "factor": 200
       },
       "limit": 0,
-      "value": 60
+      "value": 80
     },
     "opacity": {
       "random": {
