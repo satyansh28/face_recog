@@ -342,11 +342,11 @@ const p={
     "number": {
       "density": {
         "enable": true,
-        "area": 400,
-        "factor": 500
+        "area": 200,
+        "factor": 200
       },
       "limit": 0,
-      "value": 80
+      "value": 60
     },
     "opacity": {
       "random": {
