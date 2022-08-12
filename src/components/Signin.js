@@ -41,7 +41,7 @@ const Signin=(props)=>
         
     }
     return(
-    <article className="br4 shadow-4 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 center">
+    <article className="br4 shadow-4 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 center v-mid">
     
     <main className="pa4 black-80 center">
     <div className="measure center">
