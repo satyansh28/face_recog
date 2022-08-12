@@ -341,8 +341,8 @@ const p={
     },
     "number": {
       "density": {
-        "enable": true,
-        "area": 200,
+        "enable": false,
+        "area": 800,
         "factor": 200
       },
       "limit": 0,
