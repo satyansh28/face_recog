@@ -346,7 +346,7 @@ const p={
         "factor": 200
       },
       "limit": 0,
-      "value": 80
+      "value": 120
     },
     "opacity": {
       "random": {
@@ -442,7 +442,7 @@ const p={
         "minimumValue": 1
       },
       "value": {
-        "min": 0.1,
+        "min": 1,
         "max": 3
       },
       "animation": {
